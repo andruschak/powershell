@@ -1,9 +1,9 @@
 # Variables for common values
 # from - https://docs.microsoft.com/en-us/azure/virtual-machines/scripts/virtual-machines-linux-powershell-sample-create-vm?toc=%2fpowershell%2fmodule%2ftoc.json
 
-$resourceGroup = "myResourceGroup"
-$location = "westeurope"
-$vmName = "myVM"
+$resourceGroup = "vm-lab"
+$location = "westus"
+$vmName = "vm-lab-server1"
 
 # Definer user name and blank password
 $securePassword = ConvertTo-SecureString ' ' -AsPlainText -Force
@@ -13,11 +13,11 @@ $cred = New-Object System.Management.Automation.PSCredential ("azureuser", $secu
 New-AzureRmResourceGroup -Name $resourceGroup -Location $location
 
 # Create a subnet configuration
-$subnetConfig = New-AzureRmVirtualNetworkSubnetConfig -Name mySubnet -AddressPrefix 192.168.1.0/24
+$subnetConfig = New-AzureRmVirtualNetworkSubnetConfig -Name my-lab-Subnet -AddressPrefix 192.168.1.0/24
 
 # Create a virtual network
 $vnet = New-AzureRmVirtualNetwork -ResourceGroupName $resourceGroup -Location $location `
-  -Name MYvNET -AddressPrefix 192.168.0.0/16 -Subnet $subnetConfig
+  -Name vm-lab-vNET -AddressPrefix 192.168.0.0/16 -Subnet $subnetConfig
 
 # Create a public IP address and specify a DNS name
 $pip = New-AzureRmPublicIpAddress -ResourceGroupName $resourceGroup -Location $location `
@@ -44,7 +44,7 @@ Add-AzureRmVMNetworkInterface -Id $nic.Id
 
 # Configure SSH Keys
 $sshPublicKey = Get-Content "$env:USERPROFILE\.ssh\id_rsa.pub"
-Add-AzureRmVMSshPublicKey -VM $vmconfig -KeyData $sshPublicKey -Path "/home/azureuser/.ssh/authorized_keys"
+Add-AzureRmVMSshPublicKey -VM $vmconfig -KeyData $sshPublicKey -Path "/home/tandr/.ssh/authorized_keys"
 
 # Create a virtual machine
 New-AzureRmVM -ResourceGroupName $resourceGroup -Location $location -VM $vmConfig
