@@ -3,13 +3,10 @@
 #
 # before running execute: "Login-AzureRmAccount" and enter your azure user/pass
 #
-# this will lump the vm-nic, vm-nsg, etc to the resource group - if you want to delete, turf the resource group
+# this will lump the vm-nic, vm-nsg, etc to the resource group - if you want to delete, turf the resource group (see below)
 
 
-
-
-
-$resourceGroup = "vm-lab"
+$resourceGroup = "az-lab-rg"
 $location = "westus"
 $vmName = "az-lab-server1"
 
@@ -64,7 +61,8 @@ Add-AzureRmVMNetworkInterface -Id $nic.Id
 
 
 # Need to configure youre ssh keys
-# after choco install putty you can use puttygen to generate keys or git bash with 
+# after choco install putty you can use puttygen to generate keys or git bash with ssh-keygen.exe (recommended way!!)
+# open git-bash command (after git install from choco), cd ~, ssh-keygen, only hit enter and it will save them to the proper locations
 
 # Configure SSH Keys
 $sshPublicKey = Get-Content "$env:USERPROFILE\.ssh\id_rsa.pub"
@@ -72,9 +70,7 @@ Add-AzureRmVMSshPublicKey -VM $vmconfig -KeyData $sshPublicKey -Path "/home/tand
 
 # Create a virtual machine
 New-AzureRmVM -ResourceGroupName $resourceGroup -Location $location -VM $vmConfig
-Clean up deployment
-Run the following command to remove the resource group, VM, and all related resources.
-PowerShell
 
-Copy
-Remove-AzureRmResourceGroup -Name myResourceGroup
+
+# The removal command, reference at the beginning - delete the resource group
+# Remove-AzureRmResourceGroup -Name az-lab-rg
