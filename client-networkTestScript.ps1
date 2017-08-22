@@ -4,7 +4,8 @@ $date = Get-Date
 
 write-host "============================================="
 write-host "Client PC Network Info Gathering Script"
-write-host "Version 1.0 || Build date: 02/02/2016"
+write-host "Version 1.1 || Build date: 02/02/2016"
+write-host "Modified: 08/22/2017"
 write-host "============================================="
 write-host ""
 write-host "Script run on: "$date
